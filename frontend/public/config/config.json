@@ -16,6 +16,5 @@
   "PAUSED": false,
   "MARKETPLACE": "OpenSea",
   "MARKETPLACE_LINK": "https://opensea.io/",
-  "MAX_MINT_AMOUNT_PRE": 5,
   "MAX_MINT_AMOUNT_PUBLIC": 10
 }

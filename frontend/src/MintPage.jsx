@@ -74,6 +74,7 @@ const Mint = () => {
   const blockchain = useSelector((state) => state.blockchain)
   const data = useSelector((state) => state.data)
   const [merkle, setMerkle] = useState([])
+  const [alCount, setAlCount] = useState([])
   const [claimingNft, setClaimingNft] = useState(false)
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`)
   const [mintAmount, setMintAmount] = useState(1)
@@ -109,7 +110,8 @@ const Mint = () => {
     if (data.presale) {
       method = blockchain.smartContract.methods.preMint(
         mintAmount,
-        merkle.hexProof
+        merkle.hexProof,
+        alCount
       )
     } else {
       method = blockchain.smartContract.methods.publicMint(mintAmount)
@@ -146,7 +148,7 @@ const Mint = () => {
 
   const incrementMintAmount = () => {
     const MAX_MINT_AMOUNT = data.presale
-      ? CONFIG.MAX_MINT_AMOUNT_PRE
+      ? alCount
       : CONFIG.MAX_MINT_AMOUNT_PUBLIC
     let newMintAmount = mintAmount + 1
     if (newMintAmount > MAX_MINT_AMOUNT) {
@@ -166,7 +168,8 @@ const Mint = () => {
       .then(
         (result) => {
           console.log(result)
-          setMerkle(result)
+          setMerkle(result.hexProof)
+          setAlCount(result.alCount)
         },
         (error) => {
           console.log(error)
@@ -413,7 +416,7 @@ const Mint = () => {
         >
           Pre/Public Price: 0.01ETH
           <br />
-          WhiteList Max: 10 NFTs per address
+          WhiteList You have: {alCount > 0 ? alCount : "To view the number you have, please connect your wallet"}.
           <br />
           Public Max: 10 NFTs per Transaction
         </s.TextDescription>
