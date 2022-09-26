@@ -117,15 +117,6 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
          whiteListClaimed[msg.sender] += _mintAmount;
     }
 
-    // function getLeaf() public view returns (bytes32)
-    // {
-    //     return keccak256(abi.encodePacked(msg.sender));
-    // }
-
-    // function getLeafWithPreMintMax(uint256 _preMintMax) public view returns (bytes32)
-    // {
-    //     return keccak256(abi.encodePacked(msg.sender, _preMintMax));
-    // }
 
     function mintCheck(
         uint256 _mintAmount,
