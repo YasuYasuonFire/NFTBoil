@@ -2,6 +2,7 @@ import { Handler } from '@netlify/functions'
 import keccak256 from 'keccak256'
 import { MerkleTree } from 'merkletreejs'
 import { addressAndAlCountMap } from './addresses'
+import Web3 from 'web3'
 
 export const handler: Handler = async (event, context) => {
   const address = event.queryStringParameters?.address
@@ -10,9 +11,6 @@ export const handler: Handler = async (event, context) => {
   }
   const addressLower = address.toLowerCase()
 
-  // console.log("addressAndAlCountLower", addressAndAlCountLower);
-  // console.log("addressesLower", addressesLower);
-
   const alCount = addressAndAlCountLower.get(addressLower)
   if (!alCount) {
     console.log('address not wl:', addressLower)
@@ -20,21 +18,16 @@ export const handler: Handler = async (event, context) => {
   }
   console.log('alCount:', alCount)
 
-  const proofStr = addressLower + ':' + alCount
+  const proof = createLeaf(addressLower, alCount)
+  console.log('leaves', leaves)
+  console.log('proof', proof)
 
-  const nodeIndex: number = addressesLower.indexOf(proofStr)
+  const nodeIndex: number = leaves.indexOf(proof)
   const rootHash = tree.getRoot()
   console.log('rootHash:', tree.getHexRoot())
 
-  console.log('address:', addressLower, 'nodeindex:', nodeIndex)
-
-  if (nodeIndex === -1) {
-    return { statusCode: 400, body: "Your Address don't eligible whitelist" }
-  }
-  const hashedProofStr = keccak256(proofStr)
-  const hexProof = tree.getHexProof(hashedProofStr)
-  const verify = tree.verify(hexProof, hashedProofStr, rootHash)
-  // console.log('verify:', verify)
+  const hexProof = tree.getHexProof(proof)
+  const verify = tree.verify(hexProof, proof, rootHash)
 
   if (!verify) {
     return {
@@ -55,17 +48,36 @@ export const handler: Handler = async (event, context) => {
   }
 }
 
-// MerkleTreeにするもの。「addressLower:alCount」というフォーマット
-const addressesLower: string[] = []
+// MerkleTreeにするもの。「addressLower + alCount」というフォーマット
+const leaves: Buffer[] = []
 
 // addressとalCountの対応表のアドレスを小文字化したもの
 const addressAndAlCountLower = new Map<string, number>()
 
+const web3 = new Web3()
 // addressAndAlCountを元に、小文字化しつつaddressesLowerとaddressAndAlCountLowerを作る
-for (const [key, value] of addressAndAlCountMap) {
-  addressesLower.push(key.toLowerCase() + ':' + value)
-  addressAndAlCountLower.set(key.toLowerCase(), value)
+for (const [address, presaleMax] of addressAndAlCountMap) {
+  leaves.push(createLeaf(address, presaleMax))
+  addressAndAlCountLower.set(address.toLowerCase(), presaleMax)
 }
 
-const leafNodes = addressesLower.map((x) => keccak256(x))
-const tree = new MerkleTree(leafNodes, keccak256, { sortPairs: true })
+const tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+
+function createLeaf(address, presaleMax) {
+  // see https://ethereum.stackexchange.com/questions/127471/use-javascript-merkle-tree-to-generate-hex-proof-for-solidity-merkletree-validat
+  const bufferAddress = Buffer.from(
+    address.toLowerCase().replace('0x', ''),
+    'hex'
+  )
+  const bufferPresaleMax = Buffer.from(
+    web3.eth.abi.encodeParameter('uint256', presaleMax).replace('0x', ''),
+    'hex'
+  )
+  const leaf: Buffer = keccak256(
+    Buffer.concat([bufferAddress, bufferPresaleMax])
+  )
+
+  console.log(leaf)
+
+  return leaf
+}
