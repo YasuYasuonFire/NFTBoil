@@ -1,13 +1,13 @@
 {
-  "CONTRACT_ADDRESS": "0x807cdaf7EfDFB9834CEc8b09EE6F464e3FBd8Dd0",
-  "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x807cdaf7EfDFB9834CEc8b09EE6F464e3FBd8Dd0",
+  "CONTRACT_ADDRESS": "0x11393E9261f0f6E251f97A81403B773CC04b8414",
+  "SCAN_LINK": "https://goerli.etherscan.io/address/0x11393e9261f0f6e251f97a81403b773cc04b8414",
   "NETWORK": {
-    "NAME": "Rinkeby",
+    "NAME": "Goerli",
     "SYMBOL": "ETH",
-    "ID": 4,
+    "ID": 5,
     "DECIMALS": 18,
-    "RPC_URL": "https://eth-rinkeby.alchemyapi.io/v2/WG68WJV_dEDvQY7Lnyt5ZxwK6FBCEHLJ",
-    "BLOCK_EXPLORER_URL": "https://rinkeby.etherscan.io/"
+    "RPC_URL": "https://eth-goerli.g.alchemy.com/v2/FHWYhsj50wrHcVUGMY0oEV7RCVDPyPUC",
+    "BLOCK_EXPLORER_URL": "https://goerli.etherscan.io/"
   },
   "NFT_NAME": "NFTBoilMerkle",
   "SYMBOL": "BOIL",
