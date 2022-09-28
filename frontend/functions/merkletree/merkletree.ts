@@ -14,13 +14,19 @@ export const handler: Handler = async (event, context) => {
   const alCount = addressAndAlCountLower.get(addressLower)
   if (!alCount) {
     console.log('address not wl:', addressLower)
-    return { statusCode: 400, body: "Your Address don't eligible whitelist" }
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        address,
+        message: "Your Address don't eligible whitelist",
+      }),
+    }
   }
   console.log('alCount:', alCount)
 
   const proof = createLeaf(addressLower, alCount)
-  console.log('leaves', leaves)
-  console.log('proof', proof)
+  // console.log('leaves', leaves)
+  // console.log('proof', proof)
 
   const nodeIndex: number = leaves.indexOf(proof)
   const rootHash = tree.getRoot()
@@ -77,7 +83,7 @@ function createLeaf(address, presaleMax) {
     Buffer.concat([bufferAddress, bufferPresaleMax])
   )
 
-  console.log(leaf)
+  // console.log(leaf)
 
   return leaf
 }

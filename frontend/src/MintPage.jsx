@@ -73,7 +73,7 @@ const Mint = () => {
   const dispatch = useDispatch()
   const blockchain = useSelector((state) => state.blockchain)
   const data = useSelector((state) => state.data)
-  const [merkle, setMerkle] = useState([])
+  const [merkleHexProof, setMerkleHexProof] = useState([])
   const [alCount, setAlCount] = useState([])
   const [claimingNft, setClaimingNft] = useState(false)
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`)
@@ -110,8 +110,8 @@ const Mint = () => {
     if (data.presale) {
       method = blockchain.smartContract.methods.preMint(
         mintAmount,
-        merkle.hexProof,
-        alCount
+        alCount,
+        merkleHexProof
       )
     } else {
       method = blockchain.smartContract.methods.publicMint(mintAmount)
@@ -168,7 +168,7 @@ const Mint = () => {
       .then(
         (result) => {
           console.log(result)
-          setMerkle(result.hexProof)
+          setMerkleHexProof(result.hexProof)
           setAlCount(result.alCount)
         },
         (error) => {
@@ -241,7 +241,7 @@ const Mint = () => {
   }
 
   const BuyButton = () => {
-    if (data.presale && !merkle['hexProof']) {
+    if (data.presale && !merkleHexProof) {
       return (
         <s.TextDescription
           style={{
