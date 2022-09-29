@@ -419,7 +419,7 @@ describe(`NFTBoilMerkleA contract`, function () {
       ).to.be.revertedWith('Invalid Merkle Proof')
     })
 
-    it('Whitelisted presaleMaxes Check 1', async () => {
+    it('Whitelisted presaleMaxes Check', async () => {
       addresses = [owner.address, bob.address, alis.address]
       presaleMaxes = [0, 1, 2]
       leaves = createLeaves(addresses, presaleMaxes)
@@ -514,7 +514,7 @@ describe(`NFTBoilMerkleA contract`, function () {
       ).to.be.revertedWith('Already claimed max')
     })
 
-    it('Whitelisted presaleMaxes Check 2', async () => {
+    it('High volume purchases on preMint', async () => {
       addresses = [owner.address, bob.address, alis.address]
       presaleMaxes = [11, 20, 200]
       leaves = createLeaves(addresses, presaleMaxes)
@@ -544,6 +544,108 @@ describe(`NFTBoilMerkleA contract`, function () {
         }),
         'You can buy a lot more in preMint'
       ).to.be.ok
+    })
+
+    it('Testing of presaleMaxes updates', async () => {
+      addresses = [owner.address, bob.address, alis.address]
+      presaleMaxes = [5, 10, 15]
+      leaves = createLeaves(addresses, presaleMaxes)
+      let tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+      rootTree = tree.getRoot()
+      await ad.setMerkleRoot(rootTree)
+
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
+
+      expect(
+        await ad.connect(owner).preMint(5, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(5),
+        }),
+        'You can buy nfts in a preMint 5'
+      ).to.be.ok
+
+      expect(
+        await bobs.preMint(10, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(10),
+        }),
+        'You can buy nfts in a preMint 10'
+      ).to.be.ok
+
+      expect(
+        await ads.preMint(15, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(15),
+        }),
+        'You can buy nfts in a preMint 15'
+      ).to.be.ok
+
+      presaleMaxes = [6, 15, 55]
+      leaves = createLeaves(addresses, presaleMaxes)
+      tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+      rootTree = tree.getRoot()
+      await ad.setMerkleRoot(rootTree)
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
+
+      await expect(
+        ad.connect(owner).preMint(2, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(2),
+        }),
+        'You can not buy nft for more than the additional amount. owner before'
+      ).to.be.revertedWith('Already claimed max')
+      expect(
+        await ad.connect(owner).preMint(1, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can buy nft for an additional 1'
+      ).to.be.ok
+      await expect(
+        ad.connect(owner).preMint(1, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can not buy nft for more than the additional amount. owner after'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await bobs.preMint(2, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(2),
+        }),
+        'You can buy nft for an additional 2'
+      ).to.be.ok
+      expect(
+        await bobs.preMint(3, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(3),
+        }),
+        'You can buy nft for an additional 3'
+      ).to.be.ok
+      await expect(
+        bobs.preMint(1, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can not buy nft for more than the additional amount. bob'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await ads.preMint(40, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(40),
+        }),
+        'You can buy a lot more additional in preMint 40'
+      ).to.be.ok
+      await expect(
+        ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can not buy nft for more than the additional amount. alis 1'
+      ).to.be.revertedWith('Already claimed max')
+      await expect(
+        ads.preMint(5, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(5),
+        }),
+        'You can not buy nft for more than the additional amount. alis 5'
+      ).to.be.revertedWith('Already claimed max')
+      await expect(
+        ads.preMint(100, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(100),
+        }),
+        'You can not buy nft for more than the additional amount. alis 100'
+      ).to.be.revertedWith('Already claimed max')
     })
 
     it('Pre Sale Price Boundary Check', async () => {
