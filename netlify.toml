@@ -1,11 +1,11 @@
 [build]
-publish = "frontend/build"
+publish = "build"
 # Default build command.
 command = "npm run build --prefix frontend"
 
 [functions]
-directory = "frontend/functions/"
+directory = "functions/"
 external_node_modules = ["electron"]
 
 [context.dev.functions]
-directory = "frontend/functions/"
+directory = "functions/"
