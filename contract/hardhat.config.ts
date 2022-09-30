@@ -48,11 +48,6 @@ const config: HardhatUserConfig = {
       accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
     },
     goerli: {
-      url: 'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-      chainId: 5,
-      accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
-    },
-    goerli: {
       url: process.env['GOERLI_RPC'] || '',
       gasPrice: 10 * 1000000000,
       gasMultiplier: 2,
