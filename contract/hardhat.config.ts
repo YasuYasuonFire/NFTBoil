@@ -5,6 +5,7 @@ import type { HardhatUserConfig } from 'hardhat/config'
 import { getEnvVariable } from './scripts/helpers'
 import '@typechain/hardhat'
 import '@nomiclabs/hardhat-etherscan'
+import 'hardhat-gas-reporter'
 import './scripts/tasks'
 
 const config: HardhatUserConfig = {
@@ -29,6 +30,9 @@ const config: HardhatUserConfig = {
       goerli: process.env['ETH_API'] || '',
     },
   },
+  gasReporter: {
+    enabled: !!process.env['REPORT_GAS'],
+  },
   networks: {
     localhost: {
       url: 'http://localhost:8545',
@@ -45,6 +49,11 @@ const config: HardhatUserConfig = {
     ethereum: {
       url: process.env['MAINNET_RPC'] || '',
       chainId: 1,
+      accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
+    },
+    rinkeby: {
+      url: process.env['RINKEBY_RPC'] || '',
+      chainId: 4,
       accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
     },
     goerli: {
