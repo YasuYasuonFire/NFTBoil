@@ -5,6 +5,7 @@ command = "npm run build -w frontend"
 
 [functions]
 directory = "frontend/functions/"
+external_node_modules = ["electron"]
 
 [context.dev.functions]
 directory = "frontend/functions/"

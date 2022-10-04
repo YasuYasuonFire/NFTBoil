@@ -24,7 +24,6 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
     uint256 public preCost = 0.01 ether;
     uint256 public publicCost = 0.02 ether;
     bool public presale = true;
-    uint256 public presale_max = 5;
     bool public mintable = true;
     address public royaltyAddress;
     uint96 public royaltyFee = 500;
@@ -94,7 +93,7 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
         _mint(msg.sender, _mintAmount);
     }
 
-    function preMint(uint256 _mintAmount, bytes32[] calldata _merkleProof)
+    function preMint(uint256 _mintAmount, uint256 _preMintMax, bytes32[] calldata _merkleProof)
         public
         payable
         whenMintable
@@ -103,20 +102,21 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
         uint256 cost = preCost * _mintAmount;
         mintCheck(_mintAmount,  cost);
         require(presale, "Presale is not active.");
-        bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
+        bytes32 leaf = keccak256(abi.encodePacked(msg.sender, _preMintMax));
         require(
             MerkleProof.verify(_merkleProof, merkleRoot, leaf),
             "Invalid Merkle Proof"
         );
 
         require(
-            whiteListClaimed[msg.sender] + _mintAmount <= presale_max,
+            whiteListClaimed[msg.sender] + _mintAmount <= _preMintMax,
             "Already claimed max"
         );
 
         _mint(msg.sender, _mintAmount);
          whiteListClaimed[msg.sender] += _mintAmount;
     }
+
 
     function mintCheck(
         uint256 _mintAmount,
@@ -148,10 +148,6 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
 
     function setMintable(bool _state) public onlyOwner {
         mintable = _state;
-    }
-
-    function setPreMax(uint256 _max) public onlyOwner {
-        presale_max = _max;
     }
 
     function getCurrentCost() public view returns (uint256) {

@@ -27,6 +27,7 @@ const config: HardhatUserConfig = {
       polygonMumbai: process.env['POLYGON_API'] || '',
       mainnet: process.env['ETH_API'] || '',
       rinkeby: process.env['ETH_API'] || '',
+      goerli: process.env['ETH_API'] || '',
     },
   },
   gasReporter: {
@@ -53,6 +54,13 @@ const config: HardhatUserConfig = {
     rinkeby: {
       url: process.env['RINKEBY_RPC'] || '',
       chainId: 4,
+      accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
+    },
+    goerli: {
+      url: process.env['GOERLI_RPC'] || '',
+      gasPrice: 10 * 1000000000,
+      gasMultiplier: 2,
+      chainId: 5,
       accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
     },
     astar: {

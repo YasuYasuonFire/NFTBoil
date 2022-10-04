@@ -251,88 +251,136 @@ describe(`NFTBoilMerkleA contract`, function () {
 
   describe('Whitelist checks', function () {
     let rootTree
+    let addresses: string[]
+    let leaves: Buffer[]
     let hexProofs: BytesLike[][]
+    let presaleMaxes: number[]
     let mintCost: BigNumber
+
     beforeEach(async function () {
       mintCost = await ad.getCurrentCost()
-      const leaves = [alis.address].map((x) => keccak256(x))
+
+      addresses = [alis.address]
+      leaves = createLeaves(addresses, [5])
       const tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
       rootTree = tree.getRoot()
       await ad.setMerkleRoot(rootTree)
+
       hexProofs = [owner.address, bob.address, alis.address].map((x) => {
         return tree.getHexProof(keccak256(x))
       })
+      presaleMaxes = [5, 5, 5]
     })
-    it('Non Whitelisted user cant buy on PreSale', async function () {
+
+    // it('leaf check getLeaf', async function () {
+    //   expect(
+    //     await ads.getLeaf()
+    //   ).to.equal(leaves[0]?.toString('hex'))
+
+    // })
+
+    // it('leaf check getLeafWithPreMintMax', async () => {
+    //   expect(
+    //     await ads.getLeafWithPreMintMax(5)
+    //   ).to.equal("0x" + leaves[0]?.toString('hex'))
+
+    // })
+
+    it('Non Whitelisted user cant buy on PreSale', async () => {
       await expect(
-        ad.connect(bob).preMint(1, hexProofs[1]!, {
+        ad.connect(bob).preMint(1, presaleMaxes[1]!, hexProofs[1]!, {
           value: mintCost,
         })
       ).to.be.revertedWith('Invalid Merkle Proof')
 
       await expect(
-        ad.connect(owner).preMint(1, hexProofs[0]!, {
+        ad.connect(owner).preMint(1, presaleMaxes[0]!, hexProofs[0]!, {
           value: mintCost,
         })
       ).to.be.revertedWith('Invalid Merkle Proof')
 
-      expect(await ads.preMint(1, hexProofs[2]!, { value: mintCost })).to.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        })
+      ).to.be.ok
     })
 
-    it("Presale can't open on PublicSale", async function () {
+    it("Presale can't open on PublicSale", async () => {
       await ad.setPresale(false)
       await expect(
-        ad.connect(bob).preMint(1, hexProofs[1]!, { value: mintCost })
+        ad
+          .connect(bob)
+          .preMint(1, presaleMaxes[1]!, hexProofs[1]!, { value: mintCost })
       ).to.be.revertedWith('Presale is not active.')
     })
 
-    it('Whitelisted multi user set', async function () {
-      const leaves = [owner.address, bob.address, alis.address].map((x) =>
-        keccak256(x)
-      )
+    it('Whitelisted multi user set', async () => {
+      addresses = [owner.address, bob.address, alis.address]
+      presaleMaxes = [5, 5, 5]
+      leaves = createLeaves(addresses, presaleMaxes)
       const tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
       rootTree = tree.getRoot()
       await ad.setMerkleRoot(rootTree)
-      hexProofs = [owner.address, bob.address, alis.address].map((x) =>
-        tree.getHexProof(keccak256(x))
-      )
+
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
 
       expect(
-        await ad.connect(owner).preMint(1, hexProofs[0]!, { value: mintCost })
+        await ad
+          .connect(owner)
+          .preMint(1, presaleMaxes[0]!, hexProofs[0]!, { value: mintCost })
       ).to.be.ok
-      expect(await bobs.preMint(1, hexProofs[1]!, { value: mintCost })).to.be.ok
-      expect(await ads.preMint(1, hexProofs[2]!, { value: mintCost })).to.be.ok
+      expect(
+        await bobs.preMint(1, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost,
+        })
+      ).to.be.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        })
+      ).to.be.ok
     })
 
-    it(`Whitelisted user can only buy ${testConfig.presale_max_mint} nft`, async function () {
-      const buyCost = (await ad.getCurrentCost()).mul(
-        testConfig.presale_max_mint
-      )
+    it(`Whitelisted user can purchase as many as they are allocated.`, async () => {
+      const buyCost = (await ad.getCurrentCost()).mul(presaleMaxes[2]!)
 
       expect(
-        await ads.preMint(testConfig.presale_max_mint, hexProofs[2]!, {
+        await ads.preMint(presaleMaxes[2]!, presaleMaxes[2]!, hexProofs[2]!, {
           value: buyCost,
         })
       ).to.be.ok
       await expect(
-        ads.preMint(1, hexProofs[2]!, { value: buyCost })
+        ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: buyCost })
       ).to.be.revertedWith('Already claimed max')
     })
 
-    it('Whitelisted user can buy 3 + 2', async function () {
+    it('Whitelisted user can buy 3 + 2', async () => {
       mintCost = (await ad.getCurrentCost()).mul(3)
-      expect(await ads.preMint(3, hexProofs[2]!, { value: mintCost })).to.be.ok
-      expect(await ads.preMint(2, hexProofs[2]!, { value: mintCost })).to.be.ok
+      expect(
+        await ads.preMint(3, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        })
+      ).to.be.ok
+      expect(
+        await ads.preMint(2, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        })
+      ).to.be.ok
       await expect(
-        ad.connect(alis).preMint(1, hexProofs[2]!, { value: mintCost })
+        ad
+          .connect(alis)
+          .preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: mintCost })
       ).to.be.revertedWith('Already claimed max')
     })
 
-    it('Whitelisted user can not buy over WL', async function () {
-      const amount = testConfig.presale_max_mint + 1
+    it('Whitelisted user can not buy over WL', async () => {
+      const amount = presaleMaxes[2]! + 1
       const cost = (await ad.getCurrentCost()).mul(amount)
       await expect(
-        ad.connect(alis).preMint(amount, hexProofs[2]!, { value: cost })
+        ad
+          .connect(alis)
+          .preMint(amount, presaleMaxes[2]!, hexProofs[2]!, { value: cost })
       ).to.be.revertedWith('Already claimed max')
     })
 
@@ -341,49 +389,304 @@ describe(`NFTBoilMerkleA contract`, function () {
       await ad.pause()
 
       await expect(
-        ad.connect(alis).preMint(1, hexProofs[2]!, {
+        ad.connect(alis).preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
           value: cost,
         })
       ).to.be.revertedWith('Pausable: paused')
       await ad.unpause()
-      expect(await ads.preMint(1, hexProofs[2]!, { value: cost })).to.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: cost })
+      ).to.ok
     })
 
-    it('Non WhiteList user block after Whitelisted user buy', async function () {
-      const amount = testConfig.presale_max_mint
-      mintCost = (await ad.getCurrentCost()).mul(testConfig.presale_max_mint)
-      expect(await ads.preMint(amount, hexProofs[2]!, { value: mintCost })).to
-        .ok
+    it('Non WhiteList user block after Whitelisted user buy', async () => {
+      const amount = presaleMaxes[2]!
+      mintCost = (await ad.getCurrentCost()).mul(amount)
+      expect(
+        await ads.preMint(amount, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        })
+      ).to.ok
       await expect(
-        ad.connect(alis).preMint(1, hexProofs[2]!, { value: mintCost })
+        ad
+          .connect(alis)
+          .preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: mintCost })
       ).to.be.revertedWith('Already claimed max')
       await expect(
-        ad.connect(bob).preMint(1, hexProofs[1]!, { value: mintCost })
+        ad
+          .connect(bob)
+          .preMint(1, presaleMaxes[1]!, hexProofs[1]!, { value: mintCost })
       ).to.be.revertedWith('Invalid Merkle Proof')
+    })
+
+    it('Whitelisted presaleMaxes Check', async () => {
+      addresses = [owner.address, bob.address, alis.address]
+      presaleMaxes = [0, 1, 2]
+      leaves = createLeaves(addresses, presaleMaxes)
+      const tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+      rootTree = tree.getRoot()
+      await ad.setMerkleRoot(rootTree)
+
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
+
+      await expect(
+        ad
+          .connect(owner)
+          .preMint(1, presaleMaxes[1]!, hexProofs[0]!, { value: mintCost }),
+        'Incorrect presaleMaxes'
+      ).to.be.revertedWith('Invalid Merkle Proof')
+
+      await expect(
+        ad
+          .connect(owner)
+          .preMint(1, presaleMaxes[1]!, hexProofs[1]!, { value: mintCost }),
+        'Incorrect hexProofs'
+      ).to.be.revertedWith('Invalid Merkle Proof')
+
+      await expect(
+        ad
+          .connect(owner)
+          .preMint(1, presaleMaxes[0]!, hexProofs[0]!, { value: mintCost }),
+        'presaleMaxes = 0 can not preMint'
+      ).to.be.revertedWith('Already claimed max')
+
+      await expect(
+        bobs.preMint(2, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(2),
+        }),
+        'You can not buy more than presaleMaxes'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await bobs.preMint(1, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost,
+        }),
+        'You can buy presaleMaxes exactly'
+      ).to.be.ok
+
+      await expect(
+        bobs.preMint(1, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost,
+        }),
+        'Cannot buy if you have already bought up to the presaleMaxes.'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        }),
+        'You can buy less than presaleMaxes'
+      ).to.be.ok
+
+      await expect(
+        ads.preMint(2, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(2),
+        }),
+        'You can not buy more than presaleMaxes.'
+      ).to.be.revertedWith('Already claimed max')
+
+      await expect(
+        ads.preMint(10, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(10),
+        }),
+        'You can not buy more than presaleMaxes.'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        }),
+        'You can buy presaleMaxes exactly.'
+      ).to.be.ok
+
+      await expect(
+        ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost,
+        }),
+        'You can not buy more than presaleMaxes.'
+      ).to.be.revertedWith('Already claimed max')
+
+      await expect(
+        ads.preMint(10, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(10),
+        }),
+        'You can not buy more than presaleMaxes'
+      ).to.be.revertedWith('Already claimed max')
+    })
+
+    it('High volume purchases on preMint', async () => {
+      addresses = [owner.address, bob.address, alis.address]
+      presaleMaxes = [11, 20, 200]
+      leaves = createLeaves(addresses, presaleMaxes)
+      const tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+      rootTree = tree.getRoot()
+      await ad.setMerkleRoot(rootTree)
+
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
+
+      expect(
+        await ad.connect(owner).preMint(11, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(11),
+        }),
+        'You can buy more than PUBLIC_MAX_PER_TX in a preMint'
+      ).to.be.ok
+
+      expect(
+        await bobs.preMint(20, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(20),
+        }),
+        'You can buy a lot in preMint'
+      ).to.be.ok
+
+      expect(
+        await ads.preMint(200, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(200),
+        }),
+        'You can buy a lot more in preMint'
+      ).to.be.ok
+    })
+
+    it('Testing of presaleMaxes updates', async () => {
+      addresses = [owner.address, bob.address, alis.address]
+      presaleMaxes = [5, 10, 15]
+      leaves = createLeaves(addresses, presaleMaxes)
+      let tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+      rootTree = tree.getRoot()
+      await ad.setMerkleRoot(rootTree)
+
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
+
+      expect(
+        await ad.connect(owner).preMint(5, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(5),
+        }),
+        'You can buy nfts in a preMint 5'
+      ).to.be.ok
+
+      expect(
+        await bobs.preMint(10, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(10),
+        }),
+        'You can buy nfts in a preMint 10'
+      ).to.be.ok
+
+      expect(
+        await ads.preMint(15, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(15),
+        }),
+        'You can buy nfts in a preMint 15'
+      ).to.be.ok
+
+      presaleMaxes = [6, 15, 55]
+      leaves = createLeaves(addresses, presaleMaxes)
+      tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+      rootTree = tree.getRoot()
+      await ad.setMerkleRoot(rootTree)
+      hexProofs = leaves.map((x) => tree.getHexProof(x))
+
+      await expect(
+        ad.connect(owner).preMint(2, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(2),
+        }),
+        'You can not buy nft for more than the additional amount. owner before'
+      ).to.be.revertedWith('Already claimed max')
+      expect(
+        await ad.connect(owner).preMint(1, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can buy nft for an additional 1'
+      ).to.be.ok
+      await expect(
+        ad.connect(owner).preMint(1, presaleMaxes[0]!, hexProofs[0]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can not buy nft for more than the additional amount. owner after'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await bobs.preMint(2, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(2),
+        }),
+        'You can buy nft for an additional 2'
+      ).to.be.ok
+      expect(
+        await bobs.preMint(3, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(3),
+        }),
+        'You can buy nft for an additional 3'
+      ).to.be.ok
+      await expect(
+        bobs.preMint(1, presaleMaxes[1]!, hexProofs[1]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can not buy nft for more than the additional amount. bob'
+      ).to.be.revertedWith('Already claimed max')
+
+      expect(
+        await ads.preMint(40, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(40),
+        }),
+        'You can buy a lot more additional in preMint 40'
+      ).to.be.ok
+      await expect(
+        ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(1),
+        }),
+        'You can not buy nft for more than the additional amount. alis 1'
+      ).to.be.revertedWith('Already claimed max')
+      await expect(
+        ads.preMint(5, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(5),
+        }),
+        'You can not buy nft for more than the additional amount. alis 5'
+      ).to.be.revertedWith('Already claimed max')
+      await expect(
+        ads.preMint(100, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(100),
+        }),
+        'You can not buy nft for more than the additional amount. alis 100'
+      ).to.be.revertedWith('Already claimed max')
     })
 
     it('Pre Sale Price Boundary Check', async () => {
       const cost = ethers.utils.parseUnits(testConfig.price_pre.toString())
-      expect(await ads.preMint(1, hexProofs[2]!, { value: cost })).to.ok
-      expect(await ads.preMint(1, hexProofs[2]!, { value: cost.add(1) })).to.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: cost })
+      ).to.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: cost.add(1),
+        })
+      ).to.ok
       await expect(
-        ad.connect(alis).preMint(1, hexProofs[2]!, { value: cost.sub(1) })
+        ad
+          .connect(alis)
+          .preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: cost.sub(1) })
       ).to.be.revertedWith('Not enough funds')
     })
 
     it('Pre Sale setPrice Check', async () => {
       const cost = ethers.utils.parseUnits('0.001')
       expect(await ad.setPreCost(cost))
-      expect(await ads.preMint(1, hexProofs[2]!, { value: cost })).to.ok
-      expect(await ads.preMint(1, hexProofs[2]!, { value: cost.add(1) })).to.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: cost })
+      ).to.ok
+      expect(
+        await ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, {
+          value: cost.add(1),
+        })
+      ).to.ok
       await expect(
-        ads.preMint(1, hexProofs[2]!, { value: cost.sub(1) })
+        ads.preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: cost.sub(1) })
       ).to.be.revertedWith('Not enough funds')
     })
 
     it('Block over allocate Check', async () => {
-      expect(await ads.preMint(5, hexProofs[2]!, { value: mintCost.mul(5) })).to
-        .be.ok
+      expect(
+        await ads.preMint(5, presaleMaxes[2]!, hexProofs[2]!, {
+          value: mintCost.mul(5),
+        })
+      ).to.be.ok
       expect(
         await ad
           .connect(alis)
@@ -396,8 +699,37 @@ describe(`NFTBoilMerkleA contract`, function () {
       expect(await ad.balanceOf(bob.address)).to.equal(1)
       expect(await ad.balanceOf(alis.address)).to.equal(4)
       await expect(
-        ad.connect(alis).preMint(1, hexProofs[2]!, { value: mintCost })
+        ad
+          .connect(alis)
+          .preMint(1, presaleMaxes[2]!, hexProofs[2]!, { value: mintCost })
       ).to.be.revertedWith('Already claimed max')
     })
   })
+
+  function createLeaves(
+    _addresses: string[],
+    _presaleMaxes: number[]
+  ): Buffer[] {
+    const leaves: Buffer[] = _addresses.map((address, i) => {
+      // see https://ethereum.stackexchange.com/questions/127471/use-javascript-merkle-tree-to-generate-hex-proof-for-solidity-merkletree-validat
+      const bufferAddress = Buffer.from(address.replace('0x', ''), 'hex')
+      const bufferPresaleMax = Buffer.from(
+        ethers.utils.defaultAbiCoder
+          .encode(['uint256'], [_presaleMaxes[i]])
+          .replace('0x', ''),
+        'hex'
+      )
+      // console.log("bufferAddress : ", bufferAddress, ", bufferPresaleMax : ", bufferPresaleMax)
+      // const leaf: Buffer = keccak256(address)
+      // const leaf: Buffer = keccak256(address + _presaleMaxes[i])
+
+      const leaf: Buffer = keccak256(
+        Buffer.concat([bufferAddress, bufferPresaleMax])
+      )
+      // console.log("address : ", address, "_presaleMaxes[i] : ", _presaleMaxes[i], "leaf : ", leaf);
+
+      return leaf
+    })
+    return leaves
+  }
 })
