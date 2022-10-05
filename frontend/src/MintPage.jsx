@@ -118,7 +118,8 @@ const Mint = () => {
     }
     method
       .send({
-        gasLimit: String(totalGasLimit),
+// 適切なガスの提案がわからないので、一旦消しておく
+//        gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
         value: totalCostWei,
