@@ -261,6 +261,17 @@ const Mint = () => {
         </s.TextDescription>
       )
     }
+
+    if (data.paused) {
+      return (
+        <StyledButton
+          disabled="1"
+        >
+          <BuyButtonContent>PAUSED</BuyButtonContent>
+        </StyledButton>
+      )
+    }
+
     return (
       <StyledButton
         disabled={claimingNft ? 1 : 0}
