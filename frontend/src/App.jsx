@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="background">
       <div className="container">
-        <img width="200" height="200" src="/config/images/logo-win.png" />
+        <img width="450px" src="/config/images/logo.png" />
         <MintPage />
       </div>
     </div>

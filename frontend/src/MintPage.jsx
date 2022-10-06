@@ -74,7 +74,7 @@ const Mint = () => {
   const blockchain = useSelector((state) => state.blockchain)
   const data = useSelector((state) => state.data)
   const [merkleHexProof, setMerkleHexProof] = useState([])
-  const [alCount, setAlCount] = useState([])
+  const [alCount, setAlCount] = useState(-1)
   const [claimingNft, setClaimingNft] = useState(false)
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`)
   const [mintAmount, setMintAmount] = useState(1)
@@ -92,6 +92,9 @@ const Mint = () => {
     GAS_LIMIT: 0,
     MARKETPLACE: '',
     MARKETPLACE_LINK: '',
+    MAX_MINT_AMOUNT_PUBLIC: 0,
+    ALLOWLIST_SALE_INFO: '',
+    PUBLIC_SALE_INFO: '',
   })
 
   const { indicatorEl } = useLoading({
@@ -170,7 +173,11 @@ const Mint = () => {
         (result) => {
           console.log(result)
           setMerkleHexProof(result.hexProof)
-          setAlCount(result.alCount)
+          if (result.hexProof == undefined) {
+            setAlCount(0)
+          } else {
+            setAlCount(result.alCount)
+          }
         },
         (error) => {
           console.log(error)
@@ -250,7 +257,7 @@ const Mint = () => {
             color: 'var(--accent-text)',
           }}
         >
-          Your address don't eligible WhiteList
+          Your address don't eligible AllowList
         </s.TextDescription>
       )
     }
@@ -279,7 +286,12 @@ const Mint = () => {
         <s.TextDescription
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
         >
-          {data.presale ? 'PRESALE LIVE!' : 'PUBLIC SALE LIVE!'}
+          {alCount >= 0 ? "Allowlist You have: " + alCount : ""}<br />
+          {data.loading ? 'Loading Sale Status...'
+            : data.paused ? 'SALE IS PAUSED'
+              : data.presale ? 'PRESALE LIVE!'
+                : 'PUBLIC SALE LIVE!'
+          }
         </s.TextDescription>
         <s.SpacerSmall />
 
@@ -290,6 +302,7 @@ const Mint = () => {
           }}
         >
           {feedback}
+
         </s.TextDescription>
         <s.SpacerMedium />
         <s.Container ai={'center'} jc={'center'} fd={'row'}>
@@ -325,7 +338,7 @@ const Mint = () => {
         </s.Container>
         <s.SpacerSmall />
         <s.Container ai={'center'} jc={'center'} fd={'row'}>
-          {data.cost ? <BuyButton /> : <div color="#FFFFFF">Loading</div>}
+          {data.cost ? <BuyButton /> : <div color="#FFFFFF">Loading...</div>}
         </s.Container>
       </>
     )
@@ -359,13 +372,36 @@ const Mint = () => {
       >
         <s.TextTitle
           style={{
-            textAlign: 'center',
             color: 'var(--secondary)',
           }}
         >
-          Mintlist sale: TBA <br />
-          Public sale: TBA JST
+          Allowlist sale
         </s.TextTitle>
+        <s.TextDescription
+          style={{
+            textAlign: 'left',
+            color: 'var(--secondary)',
+          }}
+        >
+          {CONFIG.ALLOWLIST_SALE_INFO}<br />
+        </s.TextDescription>
+
+        <s.TextTitle
+          style={{
+            color: 'var(--secondary)',
+          }}
+        >
+          Public sale
+        </s.TextTitle>
+        <s.TextDescription
+          style={{
+            textAlign: 'left',
+            color: 'var(--secondary)',
+          }}
+        >
+          {CONFIG.PUBLIC_SALE_INFO}<br />
+          Max {CONFIG.MAX_MINT_AMOUNT_PUBLIC} NFTs per Transaction
+        </s.TextDescription>
         <s.SpacerSmall />
         <s.TextTitle
           style={{
@@ -415,11 +451,6 @@ const Mint = () => {
             color: 'var(--accent)',
           }}
         >
-          Pre/Public Price: 0.01ETH
-          <br />
-          WhiteList You have: {alCount > 0 ? alCount : "To view the number you have, please connect your wallet"}.
-          <br />
-          Public Max: 10 NFTs per Transaction
         </s.TextDescription>
         <s.SpacerMedium />
         <s.TextDescription

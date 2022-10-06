@@ -18,7 +18,7 @@ export const handler: Handler = async (event, context) => {
       statusCode: 400,
       body: JSON.stringify({
         address,
-        message: "Your Address don't eligible whitelist",
+        message: "Your Address don't eligible allowlist",
       }),
     }
   }
