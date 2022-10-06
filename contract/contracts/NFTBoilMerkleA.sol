@@ -34,7 +34,7 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
     address constant private BULK_TRANSFER_ADDRESS = 0xFbD1977ebf1Af6a492754B096304fC44459371B8;
     address constant private DEFAULT_ROYALITY_ADDRESS = 0xFbD1977ebf1Af6a492754B096304fC44459371B8;
     bytes32 public merkleRoot;
-    mapping(address => uint256) private whiteListClaimed;
+    mapping(address => uint256) private allowListClaimed;
 
     constructor(
         string memory _name,
@@ -109,12 +109,12 @@ contract NFTBoilMerkleA is ERC721A, ERC2981 , Ownable, Pausable, CantBeEvil(Lice
         );
 
         require(
-            whiteListClaimed[msg.sender] + _mintAmount <= _preMintMax,
+            allowListClaimed[msg.sender] + _mintAmount <= _preMintMax,
             "Already claimed max"
         );
 
         _mint(msg.sender, _mintAmount);
-         whiteListClaimed[msg.sender] += _mintAmount;
+        allowListClaimed[msg.sender] += _mintAmount;
     }
 
 

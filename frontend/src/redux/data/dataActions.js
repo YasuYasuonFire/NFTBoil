@@ -42,12 +42,18 @@ export const fetchData = () => {
         .blockchain.smartContract.methods.presale()
         .call()
 
+      const paused = await store
+        .getState()
+        .blockchain.smartContract.methods.paused()
+        .call()
+
       dispatch(
         fetchDataSuccess({
           totalSupply,
           cost,
           display_cost,
           presale,
+          paused,
         })
       )
     } catch (err) {

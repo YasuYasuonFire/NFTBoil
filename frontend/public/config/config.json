@@ -16,5 +16,7 @@
   "PAUSED": false,
   "MARKETPLACE": "OpenSea",
   "MARKETPLACE_LINK": "https://opensea.io/",
-  "MAX_MINT_AMOUNT_PUBLIC": 10
+  "MAX_MINT_AMOUNT_PUBLIC": 10,
+  "ALLOWLIST_SALE_INFO": "Date: TBA JST, Price: 0.001ETH",
+  "PUBLIC_SALE_INFO": "Date: TBA JST, Price: 0.001ETH"
 }
