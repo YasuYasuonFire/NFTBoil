@@ -13,7 +13,6 @@
   "SYMBOL": "BOIL",
   "MAX_SUPPLY": 7000,
   "GAS_LIMIT": 200000,
-  "PAUSED": false,
   "MARKETPLACE": "OpenSea",
   "MARKETPLACE_LINK": "https://opensea.io/",
   "MAX_MINT_AMOUNT_PUBLIC": 10,
