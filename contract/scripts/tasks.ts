@@ -11,6 +11,86 @@ task('checksum', 'Change address to checksum address')
     console.log(ethers.utils.getAddress(taskArgs.address))
   })
 
+task('checkStats', 'Change address to checksum address').setAction(
+  async (taskArgs, hre) => {
+    const { ethers, network } = hre
+    const deployer = (await ethers.getSigners())[0]
+    const contract = await getContract(
+      getEnvVariable('CONTRACT_NAME'),
+      hre,
+      getProvider(hre)
+    )
+    console.log(`network: ${network.name}`)
+    console.log(`deployer: ${deployer!.address}`)
+    console.log(`contract: ${contract!.address}`)
+  }
+)
+
+task('setMerkleRootPreMint', 'setMerkleRootPreMint')
+  .addParam('merkleroot', 'merkleRoot for PublicMint')
+  .setAction(async (taskArgs, hre) => {
+    const contract = await getContract(
+      getEnvVariable('CONTRACT_NAME'),
+      hre,
+      getProvider(hre)
+    )
+    const transactionResponse = await contract['setMerkleRootPreMint'](
+      taskArgs.merkleroot,
+      {
+        gasLimit: 14900000,
+      }
+    )
+    console.log(`Transaction Response Hash: ${transactionResponse.hash}`)
+  })
+
+task('setMerkleRootPublicMint', 'setMerkleRootPublicMint')
+  .addParam('merkleroot', 'merkleRoot for PublicMint')
+  .setAction(async (taskArgs, hre) => {
+    const contract = await getContract(
+      getEnvVariable('CONTRACT_NAME'),
+      hre,
+      getProvider(hre)
+    )
+    const transactionResponse = await contract['setMerkleRootPublicMint'](
+      taskArgs.merkleroot,
+      {
+        gasLimit: 14900000,
+      }
+    )
+    console.log(`Transaction Response Hash: ${transactionResponse.hash}`)
+  })
+
+task('setPreSale', 'setMerkleRootPublicMint')
+  .addParam('merkleroot', 'merkleRoot for PublicMint')
+  .setAction(async (taskArgs, hre) => {
+    const contract = await getContract(
+      getEnvVariable('CONTRACT_NAME'),
+      hre,
+      getProvider(hre)
+    )
+    const transactionResponse = await contract['setMerkleRootPublicMint'](
+      taskArgs.merkleroot,
+      {
+        gasLimit: 14900000,
+      }
+    )
+    console.log(`Transaction Response Hash: ${transactionResponse.hash}`)
+  })
+
+task('setRoyaltyFee', 'setRoyaltyFee')
+  .addParam('fee', 'fee')
+  .setAction(async (taskArgs, hre) => {
+    const contract = await getContract(
+      getEnvVariable('CONTRACT_NAME'),
+      hre,
+      getProvider(hre)
+    )
+    const transactionResponse = await contract['setRoyaltyFee'](taskArgs.fee, {
+      gasLimit: 30000000,
+    })
+    console.log(`Transaction Response Hash: ${transactionResponse.hash}`)
+  })
+
 task('pushWL', 'Push WhiteList from JSON file')
   .addOptionalParam(
     'filename',
@@ -55,7 +135,7 @@ task('snapshot', 'Take Snapshot NFT')
       hre,
       getProvider(hre)
     )
-    const totalSupply: number = Number(await contract['totalSupply']())
+    const totalSupply = Number(await contract['totalSupply']())
     console.log(`totalSupply: ${totalSupply}`)
     if (fs.existsSync(taskArguments.filename)) {
       fs.truncateSync(taskArguments.filename)

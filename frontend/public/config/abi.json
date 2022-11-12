@@ -383,7 +383,33 @@
   },
   {
     "inputs": [],
-    "name": "merkleRoot",
+    "name": "maxPerWallet",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "merkleRootPreMint",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "merkleRootPublicMint",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -553,6 +579,42 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "publicMaxPerTx",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_mintAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_publicMintMax",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "_merkleProof",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "publicMint",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -560,9 +622,22 @@
         "type": "uint256"
       }
     ],
-    "name": "publicMint",
+    "name": "publicMintWithoutProof",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "publicSaleWithoutProof",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -712,12 +787,38 @@
   {
     "inputs": [
       {
+        "internalType": "uint256",
+        "name": "_maxPerWallet",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMaxPerWallet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "_merkleRoot",
         "type": "bytes32"
       }
     ],
-    "name": "setMerkleRoot",
+    "name": "setMerkleRootPreMint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_merkleRoot",
+        "type": "bytes32"
+      }
+    ],
+    "name": "setMerkleRootPublicMint",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -770,6 +871,32 @@
       }
     ],
     "name": "setPublicCost",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_publicMaxPerTx",
+        "type": "uint256"
+      }
+    ],
+    "name": "setPublicMaxPerTx",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "_state",
+        "type": "bool"
+      }
+    ],
+    "name": "setPublicSaleWithoutProof",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

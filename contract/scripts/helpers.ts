@@ -15,12 +15,13 @@ export function getContract(
   provider: ethers.providers.Provider
 ) {
   const account = getAccount(provider, hre.network.name)
+
   if (hre.network.name === 'localhost') {
     return getContractAt(
       hre,
       contractName,
       getEnvVariable('NFT_CONTRACT_ADDRESS_LOCALHOST'),
-      account
+      getProvider(hre).getSigner()
     )
   } else {
     return getContractAt(

@@ -73,8 +73,10 @@ const Mint = () => {
   const dispatch = useDispatch()
   const blockchain = useSelector((state) => state.blockchain)
   const data = useSelector((state) => state.data)
-  const [merkleHexProof, setMerkleHexProof] = useState([])
-  const [alCount, setAlCount] = useState(-1)
+  const [merkleHexProofPreMint, setMerkleHexProofPreMint] = useState([])
+  const [alCountPreMint, setAlCountPreMint] = useState(-1)
+  const [merkleHexProofPublicMint, setMerkleHexProofPublicMint] = useState([])
+  const [alCountPublicMint, setAlCountPublicMint] = useState(-1)
   const [claimingNft, setClaimingNft] = useState(false)
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`)
   const [mintAmount, setMintAmount] = useState(1)
@@ -113,15 +115,22 @@ const Mint = () => {
     if (data.presale) {
       method = blockchain.smartContract.methods.preMint(
         mintAmount,
-        alCount,
-        merkleHexProof
+        alCountPreMint,
+        merkleHexProofPreMint
+      )
+    } else if (data.publicSaleWithoutProof) {
+      method = blockchain.smartContract.methods.publicMintWithoutProof(
+        mintAmount
       )
     } else {
-      method = blockchain.smartContract.methods.publicMint(mintAmount)
+      method = blockchain.smartContract.methods.publicMint(
+        mintAmount,
+        alCountPublicMint,
+        merkleHexProofPublicMint)
     }
     method
       .send({
-// 適切なガスの提案がわからないので、一旦消しておく
+// Ethereumチェーンの場合はデフォルトの提案が優秀なのでセット不要
 //        gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
@@ -152,12 +161,20 @@ const Mint = () => {
 
   const incrementMintAmount = () => {
     const MAX_MINT_AMOUNT = data.presale
-      ? alCount
+      ? alCountPreMint
       : CONFIG.MAX_MINT_AMOUNT_PUBLIC
     let newMintAmount = mintAmount + 1
     if (newMintAmount > MAX_MINT_AMOUNT) {
       newMintAmount = MAX_MINT_AMOUNT
     }
+    setMintAmount(newMintAmount)
+  }
+
+  const incrementMintAmountMax = () => {
+    const MAX_MINT_AMOUNT = data.presale
+      ? alCountPreMint
+      : CONFIG.MAX_MINT_AMOUNT_PUBLIC
+    let newMintAmount = MAX_MINT_AMOUNT
     setMintAmount(newMintAmount)
   }
 
@@ -172,11 +189,21 @@ const Mint = () => {
       .then(
         (result) => {
           console.log(result)
-          setMerkleHexProof(result.hexProof)
-          if (result.hexProof == undefined) {
-            setAlCount(0)
+
+          // PreMint data
+          setMerkleHexProofPreMint(result.hexProofPreMint)
+          if (result.hexProofPreMint == undefined) {
+            setAlCountPreMint(0)
           } else {
-            setAlCount(result.alCount)
+            setAlCountPreMint(result.alCountPreMint)
+          }
+
+          // PublicMint data
+          setMerkleHexProofPublicMint(result.hexProofPublicMint)
+          if (result.hexProofPublicMint == undefined) {
+            setAlCountPublicMint(0)
+          } else {
+            setAlCountPublicMint(result.alCountPublicMint)
           }
         },
         (error) => {
@@ -249,7 +276,7 @@ const Mint = () => {
   }
 
   const BuyButton = () => {
-    if (data.presale && !merkleHexProof) {
+    if (data.presale && alCountPreMint == 0) {
       return (
         <s.TextDescription
           style={{
@@ -257,12 +284,25 @@ const Mint = () => {
             color: 'var(--accent-text)',
           }}
         >
-          Your address don't eligible AllowList
+          Your address is not registered to presale
         </s.TextDescription>
       )
     }
 
-    if (data.paused) {
+    if (!data.presale && !data.publicSaleWithoutProof && alCountPublicMint == 0) {
+      return (
+        <s.TextDescription
+          style={{
+            textAlign: 'center',
+            color: 'var(--accent-text)',
+          }}
+        >
+          Your address is not registered to public sale
+        </s.TextDescription>
+      )
+    }
+
+    if (!data.mintable) {
       return (
         <StyledButton
           disabled="1"
@@ -297,11 +337,13 @@ const Mint = () => {
         <s.TextDescription
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
         >
-          {alCount >= 0 ? "Allowlist You have: " + alCount : ""}<br />
-          {data.loading ? 'Loading Sale Status...'
-            : data.paused ? 'SALE IS PAUSED'
+          Presale : {data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? alCountPreMint + " you have" : "not registered"}<br />
+          Public Sale : {data.loading ? 'Loading Your Status...' : alCountPublicMint > 0 ? "registered" : "not registered"}<br />
+          Now Sale Status : {data.loading ? 'Loading Sale Status...'
+            : !data.mintable ? 'SALE IS PAUSED'
               : data.presale ? 'PRESALE LIVE!'
-                : 'PUBLIC SALE LIVE!'
+                : !data.publicSaleWithoutProof ? 'PUBLIC SALE LIVE!'
+                  : 'PUBLIC SALE LIVE! (ANYONE)'
           }
         </s.TextDescription>
         <s.SpacerSmall />
@@ -317,6 +359,7 @@ const Mint = () => {
         </s.TextDescription>
         <s.SpacerMedium />
         <s.Container ai={'center'} jc={'center'} fd={'row'}>
+          <span style={{ width: '60px' }}></span>
           <StyledRoundButton
             style={{ lineHeight: 0.4 }}
             disabled={claimingNft ? 1 : 0}
@@ -345,6 +388,20 @@ const Mint = () => {
             }}
           >
             +
+          </StyledRoundButton>
+
+          <span style={{ width: '10px' }}></span>
+          <StyledRoundButton
+            disabled={claimingNft ? 1 : 0}
+            onClick={(e) => {
+              e.preventDefault()
+              incrementMintAmountMax()
+            }}
+            style={{
+              width: '50px',
+            }}
+          >
+            MAX
           </StyledRoundButton>
         </s.Container>
         <s.SpacerSmall />
@@ -386,7 +443,7 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          Allowlist sale
+          Presale
         </s.TextTitle>
         <s.TextDescription
           style={{
@@ -394,7 +451,9 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          {CONFIG.ALLOWLIST_SALE_INFO}<br />
+          10/22(Sat), 21:00- (Japan time)<br />
+          10/22(Sat), 12:00- (North America time)<br />
+          Mint available 24 hours a day.<br />
         </s.TextDescription>
 
         <s.TextTitle
@@ -410,7 +469,9 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          {CONFIG.PUBLIC_SALE_INFO}<br />
+          registered address only<br />
+          10/23(Sun), 21:00- (Japan time)<br />
+          10/23(Sun), 12:00- (North America time)<br />
           Max {CONFIG.MAX_MINT_AMOUNT_PUBLIC} NFTs per Transaction
         </s.TextDescription>
         <s.SpacerSmall />
