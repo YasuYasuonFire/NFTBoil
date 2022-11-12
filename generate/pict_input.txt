@@ -1,0 +1,171 @@
+#background: 
+
+#eyes: 
+
+#mouth: 
+
+clothes: Striped Shirt Mint(120),Striped Shirt Blue(120),Striped Shirt Purple(120),Striped Shirt Yellow(120),Striped Shirt Gray(120),Hoodie Yellow(120),Hoodie Green(120),Hoodie Orange(120),Hoodie Blue(120),Hoodie Red(120),Lion Costume(20),Bunny Costume(20),Panda Costume(20),Cat Costume(20),Dog Costume(20),Bear Costume(20),Sheep Costume(20),Suit Pink(100),Suit Yellow(100),Suit Blue(100),Sailor Suit Purple(100),Sailor Suit Blue(100),Sailor Suit Pink(100),Karate Uniform(80),Mummy(80),Ninja(80),Overall Blue(120),Overall Navy(100),Overall Beige(100),Kimono Pink(100),Kimono Blue(100),Kimono Yellow(100),Kindergarten Uniform Blue(100),Kindergarten Uniform Pink(100),Kindergarten Uniform Yellow(100),Rainbow(100),Track Suit Red(120),Track Suit Blue(120),Track Suit Gray(130),Rain Coat Orange(130),Rain Coat Pink(130),Rain Coat Green(130),Space Suit(60),Heart T-shirt Red(100),Heart T-shirt Yellow(100),Heart T-shirt Pink(100),Heart T-shirt Green(100),Heart T-shirt Blue(100),Dot T-shirt Blue(100),Dot T-shirt Purple(100),Dot T-shirt Pink(100),Dot T-shirt Green(100),Dot T-shirt Orange(100),Flower T-shirt Blue(100),Flower T-shirt Purple(100),Flower T-shirt Pink(100),Flower T-shirt Green(100),Flower T-shirt Orange(100),Cloud T-shirt Blue(100),Cloud T-shirt Purple(100),Cloud T-shirt Pink(100),Cloud T-shirt Green(100),Cloud T-shirt Orange(100),Sweater Red(100),Sweater Green(100),Sweater Orange(100),Uniform Orange(100),Uniform Green(110),Uniform Red(110),Shirt Beige(100),Shirt Blue(100),Shirt White(100),Shirt Pink(100),Shirt Mint(100),King(40),Ghost(40),Frilled Ribbon Black(80),Frilled Ribbon Pink(80),Beckoning Cat(50),Scarf Pink(100),Scarf Yellow(100),Scarf Blue(100),Float Pink(100),Float Yellow(100),Float Blue(100),Checked Shirt Pink(110),Checked Shirt Orange(110),Checked Shirt Blue(110),Samurai Armor Red(40),Samurai Armor Blue(40),Samurai Armor Black(40),Hero Suit(60),None(800),Lab Coat(90),Magical Costume Pink(50),Magical Costume Blue(50),Magical Costume Orange(50),Dinosaur Costume(20),Astar Cats Pink(50),Astar Cats Blue(50),Astar Cats Yellow(50),Ribbon Purple Dress(100),Short Pants White(50),Short Pants Pink(50),Short Pants Blue(50)
+
+#clothes-back: 
+
+hat: Antenna(100),Apple(150),Apricot Flower(150),Arrow(150),Astar Cats Blue(80),Astar Cats Pink(80),Astar Cats Yellow(80),Banana(100),Bear(20),Beret Blue(150),Beret Green(150),Beret Red(150),Bunny(20),Bunny Hairband(50),Cake(150),Cap Blue(150),Cap Red(150),Cap Yellow(150),Cat(20),Chef(100),Cherry(150),Crab(100),Crown(100),Dinosaur(20),Dog(20),Eyepatch(50),Fire(100),Flower(100),Ghost(40),Golden Apple(100),Halo(150),HeadBand Blue(150),HeadBand Green(150),HeadBand Red(150),Headdress Black(100),Headdress Pink(100),HeadPhones(150),Horn(100),Knitted Hat Blue(100),Knitted Hat Purple(100),Knitted Hat Red(100),Lion(20),Magical Ribbon Blue(100),Magical Ribbon Orange(100),Magical Ribbon Pink(100),Mummy(80),Nightcap Blue(150),Nightcap Orange(150),Nightcap Purple(150),Ninja(100),None(300),Octopus(100),Pancake(100),Panda(20),Party Blue(150),Party Pink(150),Party Yellow(150),Pirate(150),Pumpkin(150),Rain Coat Green(130),Rain Coat Orange(130),Rain Coat Pink(130),Ramen Bowl(100),Ribbon Blue(150),Ribbon Pink(150),Ribbon Yellow(150),Samurai Helmet Black(100),Samurai Helmet Blue(100),Samurai Helmet Red(100),Sauna Hat Gray(150),Sauna Hat Green(150),Sauna Hat Yellow(150),Shark(100),Sheep(20),Silk Hat Navy(150),Silk Hat Pink(150),Silk Hat White(150),Snot Bubble(150),Space Suit(60),Sprout(150),Strawberry(100),Sunny-Side Up(100),Sushi Egg(140),Sushi Tuna(140),Tiara(100),Unicorn(100),Wizard(150),Wreath(50)
+
+face: Cat Gray(1500),Cat Calico(320),Cat Transparent(100),Bear Yellow(1500),Bear Panda(320),Bear Transparent(100),Rabbit Pink(1500),Rabbit White(320),Rabbit Transparent(100),Dog Blue(1500),Dog Poodle(320),Dog Transparent(100),Monky Orange(1500),Monky Silver(320),Monky Transparent(100),Meatbun(400)
+
+body: Cat Gray(1500),Cat Calico(320),Cat Transparent(100),Bear Yellow(1500),Bear Panda(320),Bear Transparent(100),Rabbit Pink(1500),Rabbit White(320),Rabbit Transparent(100),Dog Blue(1500),Dog Poodle(320),Dog Transparent(100),Monky Orange(1500),Monky Silver(320),Monky Transparent(100),Meatbun(400)
+
+tool: Sword(100),Magical Stick Pink(100),Magical Stick Blue(100),Magical Stick Orange(100),King Rod(100),Katana Red(100),Katana Blue(100),Katana Black(100),Wooden Stick(200),Koban(100),Oden(300),Plush Toy AstarCats(100),Plush Toy Cat Gray(100),Plush Toy Cat Calico(100),Plush Toy Bear Yellow(100),Plush Toy Bear Panda(100),Plush Toy Rabbit Pink(100),Plush Toy Rabbit White(100),Plush Toy Dog Blue(100),Plush Toy Dog Poodle(100),Plush Toy Monky Orange(100),Plush Toy Monky Silver(100),Wand(200),Microphone(200),Ice Cream(200),Palette And Brush(200),Dango(200),French Bread(100),Balloon Pink(300),Balloon Blue(300),Balloon Green(300),Candy Pink(300),Candy Orange(300),Candy Blue(300),Candy Purple(250),Candy Green(250),Tennis Racket(200),Baseball Bat(200),Basketball(200),Flower Pink(200),Flower Orange(200),Flower White(200),Robot White(200),Robot Blue(200),None(2500)
+
+special: Wing(100),Shuriken(100),Froggy(100),Mouse(300),Fish(300),Duck(300),Golden Froggy(100),Golden Mouse(100),Rainbow Fish(100),Ghost(100),Hamster(300),Devil(100),None(7850),Bandage(150)
+
+# 重要な属性の網羅性を高めるために、パラメータ組み合わせ数でサブモデルとして登録する
+{ clothes, hat, body } @ 2
+
+# 組み合わせルール
+[face]=[body];
+if [body] like "Rabbit*" then [hat] <> "Sprout";
+if [body] = "meatbun" then [hat] <> "Sprout";
+if [body] like "Rabbit*" then [hat] <> "Antenna";
+if [body] = "meatbun" then [hat] <> "Antenna";
+if [body] like "Bear*" then [hat] <> "Sauna Hat Green";
+if [body] like "Bear*" then [hat] <> "Sauna Hat Yellow";
+if [body] like "Bear*" then [hat] <> "Sauna Hat Gray";
+if [body] like "Rabbit*" then [hat] <> "Cap Red";
+if [body] like "Rabbit*" then [hat] <> "Cap Blue";
+if [body] like "Rabbit*" then [hat] <> "Cap Yellow";
+if [body] like "Rabbit*" then [hat] <> "Bunny Hairband";
+if [clothes] = "Beckoning Cat" then [body] like "Cat*";
+if [clothes] = "Beckoning Cat" then [tool] = "Koban";
+if [clothes] = "Mummy" then [hat] = "Mummy";
+if [hat] = "Mummy" then [clothes] = "Mummy";
+if [clothes] = "Ghost" then [hat] = "Ghost";
+if [hat] = "Ghost" then [clothes] = "Ghost";
+if [hat] like "Nightcap*" then [face] <> "Bear Yellow";
+if [hat] like "Nightcap*" then [face] <> "Bear Panda";
+if [hat] like "Nightcap*" then [face] <> "Bear Transparent";
+if [hat] like "HeadBand*" then [face] <> "Dog Blue";
+if [hat] like "HeadBand*" then [face] <> "Dog Poodle";
+if [hat] like "HeadBand*" then [face] <> "Dog Transparent";
+if [clothes] = "Bunny Costume" then [face] <> "Rabbit Pink";
+if [clothes] = "Bunny Costume" then [face] <> "Rabbit White";
+if [clothes] = "Bunny Costume" then [face] <> "Rabbit Transparent";
+if [clothes] = "Bunny Costume" then [hat] = "Bunny";
+if [hat] = "Bunny" then [clothes] = "Bunny Costume";
+
+if [clothes] = "Lion Costume" then [hat] = "Lion";
+if [hat] = "Lion" then [clothes] = "Lion Costume";
+if [clothes] = "Panda Costume" then [face] <> "Bear Yellow";
+if [clothes] = "Panda Costume" then [face] <> "Bear Panda";
+if [clothes] = "Panda Costume" then [face] <> "Bear Transparent";
+if [clothes] = "Panda Costume" then [hat] = "Panda";
+if [hat] = "Panda" then [clothes] = "Panda Costume";
+
+if [clothes] = "Cat Costume" then [face] <> "Bear Yellow";
+if [clothes] = "Cat Costume" then [face] <> "Bear Panda";
+if [clothes] = "Cat Costume" then [face] <> "Bear Transparent";
+if [clothes] = "Cat Costume" then [hat] = "Cat";
+if [hat] = "Cat" then [clothes] = "Cat Costume";
+
+if [clothes] = "Dog Costume" then [face] <> "Cat Gray";
+if [clothes] = "Dog Costume" then [face] <> "Cat Calico";
+if [clothes] = "Dog Costume" then [face] <> "Cat Transparent";
+if [clothes] = "Dog Costume" then [hat] = "Dog";
+if [hat] = "Dog" then [clothes] = "Dog Costume";
+
+if [clothes] = "Bear Costume" then [face] <> "Bear Yellow";
+if [clothes] = "Bear Costume" then [face] <> "Bear Panda";
+if [clothes] = "Bear Costume" then [face] <> "Bear Transparent";
+if [clothes] = "Bear Costume" then [hat] = "Bear";
+if [hat] = "Bear" then [clothes] = "Bear Costume";
+
+if [clothes] = "Bunny Costume" then [face] <> "Rabbit Pink";
+if [clothes] = "Bunny Costume" then [face] <> "Rabbit White";
+if [clothes] = "Bunny Costume" then [face] <> "Rabbit Transparent";
+if [clothes] = "Bunny Costume" then [hat] = "Bunny";
+if [hat] = "Bunny" then [clothes] = "Bunny Costume";
+
+if [clothes] = "Sheep Costume" then [hat] = "Sheep";
+if [hat] = "Sheep" then [clothes] = "Sheep Costume";
+if [hat] = "Ramen Bowl" then [face] <> "Rabbit Pink";
+if [hat] = "Ramen Bowl" then [face] <> "Rabbit White";
+if [hat] = "Ramen Bowl" then [face] <> "Rabbit Transparent";
+if [hat] = "Ramen Bowl" then [face] <> "Dog Blue";
+if [hat] = "Ramen Bowl" then [face] <> "Dog Poodle";
+if [hat] = "Ramen Bowl" then [face] <> "Dog Transparent";
+if [hat] = "Knitted Hat Blue" then [face] <> "Dog Blue";
+if [hat] = "Knitted Hat Blue" then [face] <> "Dog Poodle";
+if [hat] = "Knitted Hat Blue" then [face] <> "Dog Transparent";
+if [hat] = "Knitted Hat Red" then [face] <> "Dog Blue";
+if [hat] = "Knitted Hat Red" then [face] <> "Dog Poodle";
+if [hat] = "Knitted Hat Red" then [face] <> "Dog Transparent";
+if [hat] = "Knitted Hat Purple" then [face] <> "Dog Blue";
+if [hat] = "Knitted Hat Purple" then [face] <> "Dog Poodle";
+if [hat] = "Knitted Hat Purple" then [face] <> "Dog Transparent";
+if [clothes] = "Rain Coat Orange" then [hat] = "Rain Coat Orange";
+if [hat] = "Rain Coat Orange" then [clothes] = "Rain Coat Orange";
+if [clothes] = "Rain Coat Pink" then [hat] = "Rain Coat Pink";
+if [hat] = "Rain Coat Pink" then [clothes] = "Rain Coat Pink";
+if [clothes] = "Rain Coat Green" then [hat] = "Rain Coat Green";
+if [hat] = "Rain Coat Green" then [clothes] = "Rain Coat Green";
+if [clothes] = "Space Suit" then [hat] = "Space Suit";
+if [hat] = "Space Suit" then [clothes] = "Space Suit";
+if [clothes] = "Ghost" then [hat] = "Ghost";
+if [hat] = "Ghost" then [clothes] = "Ghost";
+if [clothes] = "Dinosaur Costume" then [hat] = "Dinosaur";
+if [hat] = "Dinosaur" then [clothes] = "Dinosaur Costume";
+
+if [special] = "Wing" then [tool] = "None";
+if [special] = "Wing" then [face] <> "Monky Orange";
+if [special] = "Wing" then [face] <> "Monky Silver";
+if [special] = "Wing" then [face] <> "Monky Transparent";
+if [special] = "Devil" then [tool] = "None";
+if [special] = "Devil" then [face] <> "Monky Orange";
+if [special] = "Devil" then [face] <> "Monky Silver";
+if [special] = "Devil" then [face] <> "Monky Transparent";
+if [hat] = "Eyepatch" then [mouth] <> "Chewing Gum";
+if [hat] = "Eyepatch" then [face] <> "Dog Blue";
+if [hat] = "Eyepatch" then [face] <> "Dog Poodle";
+if [hat] = "Eyepatch" then [face] <> "Dog Transparent";
+if [eyes] = "Laser Beam" then [tool] = "None";
+
+if [special] = "Shuriken" then [hat] <> "Bunny";
+if [special] = "Shuriken" then [hat] <> "Bear";
+if [special] = "Shuriken" then [hat] <> "Banana";
+if [special] = "Shuriken" then [hat] <> "Astar Cats Blue";
+if [special] = "Shuriken" then [hat] <> "Astar Cats Pink";
+if [special] = "Shuriken" then [hat] <> "Astar Cats Yellow";
+if [special] = "Shuriken" then [hat] <> "Arrow";
+if [special] = "Shuriken" then [hat] <> "Dinosaur";
+if [special] = "Shuriken" then [hat] <> "Dog";
+if [special] = "Shuriken" then [hat] <> "Cap Blue";
+if [special] = "Shuriken" then [hat] <> "Cap Red";
+if [special] = "Shuriken" then [hat] <> "Cap Yellow";
+if [special] = "Shuriken" then [hat] <> "Cat";
+if [special] = "Shuriken" then [hat] <> "Lion";
+if [special] = "Shuriken" then [hat] <> "Headdress Black";
+if [special] = "Shuriken" then [hat] <> "Headdress Pink";
+if [special] = "Shuriken" then [hat] <> "HeadPhones";
+if [special] = "Shuriken" then [hat] <> "Sauna Hat Gray";
+if [special] = "Shuriken" then [hat] <> "Sauna Hat Green";
+if [special] = "Shuriken" then [hat] <> "Sauna Hat Yellow";
+if [special] = "Shuriken" then [hat] <> "Rain Coat Green";
+if [special] = "Shuriken" then [hat] <> "Rain Coat Orange";
+if [special] = "Shuriken" then [hat] <> "Rain Coat Pink";
+if [special] = "Shuriken" then [hat] <> "Panda";
+if [special] = "Shuriken" then [hat] <> "Unicorn";
+if [special] = "Shuriken" then [hat] <> "Wizard";
+if [special] = "Shuriken" then [hat] <> "Wreath";
+if [special] = "Shuriken" then [hat] <> "Strawberry";
+if [special] = "Shuriken" then [hat] <> "Space Suit";
+if [special] = "Shuriken" then [hat] <> "Shark";
+if [special] = "Shuriken" then [hat] <> "Sheep";
+if [special] = "Shuriken" then [hat] <> "Silk Hat Navy";
+if [special] = "Shuriken" then [hat] <> "Silk Hat Pink";
+if [special] = "Shuriken" then [hat] <> "Silk Hat White";
+
+if [clothes] like "Float*" then [tool] <> "Katana Red";
+if [clothes] like "Float*" then [tool] <> "Katana Blue";
+if [clothes] like "Float*" then [tool] <> "Katana Black";
+if [clothes] like "Float*" then [tool] <> "Koban";
+if [clothes] like "Float*" then [tool] <> "Palette And Brush";
+

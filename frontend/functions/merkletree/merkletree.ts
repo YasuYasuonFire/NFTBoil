@@ -1,7 +1,8 @@
 import { Handler } from '@netlify/functions'
 import keccak256 from 'keccak256'
 import { MerkleTree } from 'merkletreejs'
-import { addressAndAlCountMap } from './addresses'
+import { addressAndAlCountMapPreMint } from './addressesPreMint'
+import { addressAndAlCountMapPublicMint } from './addressesPublicMint'
 import Web3 from 'web3'
 
 export const handler: Handler = async (event, context) => {
@@ -11,63 +12,112 @@ export const handler: Handler = async (event, context) => {
   }
   const addressLower = address.toLowerCase()
 
-  const alCount = addressAndAlCountLower.get(addressLower)
-  if (!alCount) {
-    console.log('address not wl:', addressLower)
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        address,
-        message: "Your Address don't eligible allowlist",
-      }),
-    }
-  }
-  console.log('alCount:', alCount)
+  // get preMint MerkleProof
+  let alCountPreMint = addressAndAlCountLowerPreMint.get(addressLower)
+  console.log('alCountPreMint:', alCountPreMint)
 
-  const proof = createLeaf(addressLower, alCount)
+  if (!alCountPreMint) {
+    alCountPreMint = 0
+  }
+
+  const proofPreMint = createLeaf(addressLower, alCountPreMint)
   // console.log('leaves', leaves)
   // console.log('proof', proof)
 
-  const nodeIndex: number = leaves.indexOf(proof)
-  const rootHash = tree.getRoot()
-  console.log('rootHash:', tree.getHexRoot())
+  // const nodeIndex: number = leavesPreMint.indexOf(proofPreMint)
+  const rootHashPreMint = treePreMint.getRoot()
+  console.log('rootHashPreMint:', treePreMint.getHexRoot())
 
-  const hexProof = tree.getHexProof(proof)
-  const verify = tree.verify(hexProof, proof, rootHash)
+  let hexProofPreMint = treePreMint.getHexProof(proofPreMint)
+  const verifyPreMint = treePreMint.verify(
+    hexProofPreMint,
+    proofPreMint,
+    rootHashPreMint
+  )
 
-  if (!verify) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        address,
-        message: 'your address can not verify',
-      }),
-    }
+  if (!verifyPreMint) {
+    hexProofPreMint = []
+  }
+
+  // get publicMint MerkleProof
+  let alCountPublicMint = addressAndAlCountLowerPublicMint.get(addressLower)
+  console.log('alCountPublicMint:', alCountPublicMint)
+
+  if (!alCountPublicMint) {
+    alCountPublicMint = 0
+  }
+
+  const proofPublicMint = createLeaf(addressLower, alCountPublicMint)
+  // console.log('leaves', leaves)
+  // console.log('proof', proof)
+
+  // const nodeIndex: number = leavesPublicMint.indexOf(proofPublicMint)
+  const rootHashPublicMint = treePublicMint.getRoot()
+  console.log('rootHashPublicMint:', treePublicMint.getHexRoot())
+
+  let hexProofPublicMint = treePublicMint.getHexProof(proofPublicMint)
+  const verifyPublicMint = treePublicMint.verify(
+    hexProofPublicMint,
+    proofPublicMint,
+    rootHashPublicMint
+  )
+
+  if (!verifyPublicMint) {
+    hexProofPublicMint = []
   }
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      hexProof: hexProof,
-      alCount: alCount,
+      hexProofPreMint: hexProofPreMint,
+      alCountPreMint: alCountPreMint,
+      hexProofPublicMint: hexProofPublicMint,
+      alCountPublicMint: alCountPublicMint,
     }),
   }
 }
 
+const web3 = new Web3()
+
+//
+// create PreMint MerkleTree
+//
+
 // MerkleTreeにするもの。「addressLower + alCount」というフォーマット
-const leaves: Buffer[] = []
+const leavesPreMint: Buffer[] = []
 
 // addressとalCountの対応表のアドレスを小文字化したもの
-const addressAndAlCountLower = new Map<string, number>()
+const addressAndAlCountLowerPreMint = new Map<string, number>()
 
-const web3 = new Web3()
 // addressAndAlCountを元に、小文字化しつつaddressesLowerとaddressAndAlCountLowerを作る
-for (const [address, presaleMax] of addressAndAlCountMap) {
-  leaves.push(createLeaf(address, presaleMax))
-  addressAndAlCountLower.set(address.toLowerCase(), presaleMax)
+for (const [address, presaleMax] of addressAndAlCountMapPreMint) {
+  leavesPreMint.push(createLeaf(address, presaleMax))
+  addressAndAlCountLowerPreMint.set(address.toLowerCase(), presaleMax)
 }
 
-const tree = new MerkleTree(leaves, keccak256, { sortPairs: true })
+const treePreMint = new MerkleTree(leavesPreMint, keccak256, {
+  sortPairs: true,
+})
+
+//
+// create PublicMint MerkleTree
+//
+
+// MerkleTreeにするもの。「addressLower + alCount」というフォーマット
+const leavesPublicMint: Buffer[] = []
+
+// addressとalCountの対応表のアドレスを小文字化したもの
+const addressAndAlCountLowerPublicMint = new Map<string, number>()
+
+// addressAndAlCountを元に、小文字化しつつaddressesLowerとaddressAndAlCountLowerを作る
+for (const [address, publicsaleMax] of addressAndAlCountMapPublicMint) {
+  leavesPublicMint.push(createLeaf(address, publicsaleMax))
+  addressAndAlCountLowerPublicMint.set(address.toLowerCase(), publicsaleMax)
+}
+
+const treePublicMint = new MerkleTree(leavesPublicMint, keccak256, {
+  sortPairs: true,
+})
 
 function createLeaf(address, presaleMax) {
   // see https://ethereum.stackexchange.com/questions/127471/use-javascript-merkle-tree-to-generate-hex-proof-for-solidity-merkletree-validat

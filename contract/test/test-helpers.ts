@@ -4,14 +4,16 @@ import type { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers'
 import { expect } from 'chai'
 
 export const testConfig = {
-  price: 0.02,
-  price_pre: 0.01,
+  price: 0.001,
+  price_pre: 0.001,
   contract_name: 'NFTBoilMerkle',
-  max_supply: 5000,
-  initialSupply: 198,
+  symbol: 'BOIL',
+  max_supply: 10000,
+  initialSupply: 0,
+  public_max_per_tx: 5,
+  max_per_wallet: 300,
   max_mint: 10,
   presale_max_mint: 5,
-  symbol: 'BOIL',
 }
 
 export async function assertPreMint(

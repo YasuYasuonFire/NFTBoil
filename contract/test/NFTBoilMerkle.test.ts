@@ -23,11 +23,8 @@ describe(`${testConfig.contract_name} contract`, function () {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     [owner, bob, alis] = await ethers.getSigners()
-    const contract = await ethers.getContractFactory(testConfig.contract_name)
-    ad = (await contract.deploy(
-      testConfig.contract_name,
-      testConfig.symbol
-    )) as NFTBoilMerkle
+    const contract = await ethers.getContractFactory('NFTBoilMerkle')
+    ad = (await contract.deploy('BOIL', testConfig.symbol)) as NFTBoilMerkle
     await ad.deployed()
 
     // Ensure contract is paused/disabled on deployment

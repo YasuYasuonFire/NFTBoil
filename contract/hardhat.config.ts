@@ -51,16 +51,16 @@ const config: HardhatUserConfig = {
       chainId: 1,
       accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
     },
-    rinkeby: {
-      url: process.env['RINKEBY_RPC'] || '',
-      chainId: 4,
-      accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
-    },
     goerli: {
       url: process.env['GOERLI_RPC'] || '',
-      gasPrice: 10 * 1000000000,
+      gasPrice: 50 * 1000000000,
       gasMultiplier: 2,
       chainId: 5,
+      accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
+    },
+    mumbai: {
+      url: process.env['MATIC_MUMBAI_RPC'] || '',
+      chainId: 80001,
       accounts: [getEnvVariable('ACCOUNT_PRIVATE_KEY')],
     },
     astar: {

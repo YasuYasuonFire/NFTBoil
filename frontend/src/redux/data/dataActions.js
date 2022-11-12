@@ -42,9 +42,14 @@ export const fetchData = () => {
         .blockchain.smartContract.methods.presale()
         .call()
 
-      const paused = await store
+      const mintable = await store
         .getState()
-        .blockchain.smartContract.methods.paused()
+        .blockchain.smartContract.methods.mintable()
+        .call()
+
+      const publicSaleWithoutProof = await store
+        .getState()
+        .blockchain.smartContract.methods.publicSaleWithoutProof()
         .call()
 
       dispatch(
@@ -53,7 +58,8 @@ export const fetchData = () => {
           cost,
           display_cost,
           presale,
-          paused,
+          mintable,
+          publicSaleWithoutProof,
         })
       )
     } catch (err) {

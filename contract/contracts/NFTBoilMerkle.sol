@@ -18,8 +18,8 @@ contract NFTBoilMerkle is ERC721Enumerable, ERC2981, Ownable, Pausable {
     using Strings for uint256;
 
     string public baseURI = "";
-    uint256 public preCost = 0.01 ether;
-    uint256 public publicCost = 0.02 ether;
+    uint256 public preCost = 0.001 ether;
+    uint256 public publicCost = 0.001 ether;
 
     bool public revealed;
     bool public presale;
