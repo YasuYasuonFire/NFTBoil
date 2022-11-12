@@ -1,12 +1,12 @@
 {
-  "CONTRACT_ADDRESS": "0x3F457a3FD454B711867670846e7Cc525B249b5B6",
-  "SCAN_LINK": "https://etherscan.io/address/0x3f457a3fd454b711867670846e7cc525b249b5b6",
+  "CONTRACT_ADDRESS": "0xfA8fD1334cC6e75286a26A628690C00686B3DaCB",
+  "SCAN_LINK": "https://goerli.etherscan.io/address/0xfA8fD1334cC6e75286a26A628690C00686B3DaCB",
   "NETWORK": {
-    "NAME": "Ethereum",
+    "NAME": "Goerli",
     "SYMBOL": "ETH",
-    "ID": 1,
+    "ID": 5,
     "DECIMALS": 18,
-    "RPC_URL": "https://eth-mainnet.g.alchemy.com/v2/upbO14aoCDMzJiLouJJbWfisrDJVunnO",
+    "RPC_URL": "https://eth-goerli.g.alchemy.com/v2/FHWYhsj50wrHcVUGMY0oEV7RCVDPyPUC",
     "BLOCK_EXPLORER_URL": "https://goerli.etherscan.io/"
   },
   "NFT_NAME": "NFTBoilMerkleA",
@@ -14,7 +14,7 @@
   "MAX_SUPPLY": 10000,
   "GAS_LIMIT": 200000,
   "MARKETPLACE": "OpenSea",
-  "MARKETPLACE_LINK": "https://opensea.io/collection/NFTBoilMerkleA",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/XXXXXXXXXXXXXXX",
   "MAX_MINT_AMOUNT_PUBLIC": 5,
   "MAX_PER_WALLET": 300,
   "ALLOWLIST_SALE_INFO": "Date: TBA JST, Price: 0.001ETH",
