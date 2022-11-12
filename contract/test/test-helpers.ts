@@ -13,7 +13,7 @@ export const testConfig = {
   public_max_per_tx: 5,
   max_per_wallet: 300,
   max_mint: 10,
-  presale_max_mint: 100,
+  presale_max_mint: 5,
 }
 
 export async function assertPreMint(
