@@ -443,7 +443,7 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          Presale
+          1st sale (AL only)
         </s.TextTitle>
         <s.TextDescription
           style={{
@@ -451,17 +451,16 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          10/22(Sat), 21:00- (Japan time)<br />
-          10/22(Sat), 12:00- (North America time)<br />
-          Mint available 24 hours a day.<br />
+          3/XX(YY), ZZ:00- (Japan time)<br />
+          Mint Amount: 1
         </s.TextDescription>
-
+        <s.SpacerSmall />
         <s.TextTitle
           style={{
             color: 'var(--secondary)',
           }}
         >
-          Public sale
+          2nd sale(Public)
         </s.TextTitle>
         <s.TextDescription
           style={{
@@ -469,11 +468,27 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          registered address only<br />
-          10/23(Sun), 21:00- (Japan time)<br />
-          10/23(Sun), 12:00- (North America time)<br />
-          Max {CONFIG.MAX_MINT_AMOUNT_PUBLIC} NFTs per Transaction
+          4/XX(YY), ZZ:00- (Japan time)<br />
+          Mint Amount: Unlimited!
         </s.TextDescription>
+        <s.SpacerSmall />
+        <s.TextTitle
+          style={{
+            color: 'var(--secondary)',
+          }}
+        >
+          3rd sale(Public)
+        </s.TextTitle>
+        <s.TextDescription
+          style={{
+            textAlign: 'left',
+            color: 'var(--secondary)',
+          }}
+        >
+          4/XX(YY), ZZ:00- (Japan time)<br />
+          Mint Amount: Unlimited!
+        </s.TextDescription>
+
         <s.SpacerSmall />
         <s.TextTitle
           style={{
@@ -491,9 +506,7 @@ const Mint = () => {
             color: 'var(--primary-text)',
           }}
         >
-          <StyledLink target={'_blank'} href={CONFIG.SCAN_LINK}>
-            {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-          </StyledLink>
+          
         </s.TextDescription>
         <s.SpacerSmall />
         {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
