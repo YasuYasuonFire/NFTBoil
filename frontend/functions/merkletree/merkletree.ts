@@ -73,6 +73,7 @@ export const handler: Handler = async (event, context) => {
       alCountPreMint: alCountPreMint,
       hexProofPublicMint: hexProofPublicMint,
       alCountPublicMint: alCountPublicMint,
+      rootHashPreMint: treePreMint.getHexRoot(),
     }),
   }
 }
