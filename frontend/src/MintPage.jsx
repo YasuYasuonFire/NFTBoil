@@ -337,7 +337,7 @@ const Mint = () => {
         <s.TextDescription
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
         >
-           {data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "AL対象外です・・。"}<br />{"パブリックセールでお待ちしてます！"}<br /><br />
+           {data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "AL対象外です・・。2nd saleでお待ちしてます！"}<br /><br />
            {data.loading ? 'Loading Sale Status...'
             : !data.mintable ? 'セールは開始前か一時休止中です。'
               : data.presale ? '1st sale(AL only) 実施中!'
