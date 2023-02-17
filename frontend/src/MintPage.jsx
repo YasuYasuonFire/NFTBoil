@@ -113,20 +113,22 @@ const Mint = () => {
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`)
     setClaimingNft(true)
     if (data.presale) {
-      method = blockchain.smartContract.methods.preMint(
+      method = blockchain.smartContract.methods.mint(
         mintAmount,
         alCountPreMint,
         merkleHexProofPreMint
       )
-    } else if (data.publicSaleWithoutProof) {
-      method = blockchain.smartContract.methods.publicMintWithoutProof(
-        mintAmount
-      )
-    } else {
-      method = blockchain.smartContract.methods.publicMint(
+    } else if (data.publicSaleWithoutProof) {//2nd,3rd sale
+      method = blockchain.smartContract.methods.mint(
         mintAmount,
-        alCountPublicMint,
-        merkleHexProofPublicMint)
+        1,//この引数はmerkle treeのチェックに使用しているので、1はダミー
+        ["0x52d1c66d408c3f7b71e56cd705ede20a6430829100b1f0119bc91f0116824e5c"]//この引数はmerkle treeのチェックに使用しているので、ダミーの値
+      )
+    } else {//Hattenshoでは使わない
+      // method = blockchain.smartContract.methods.publicMint(
+      //   mintAmount,
+      //   alCountPublicMint,
+      //   merkleHexProofPublicMint)
     }
     method
       .send({
@@ -336,8 +338,8 @@ const Mint = () => {
         </s.TextTitle>
         <s.TextDescription
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
-        >
-           {data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "AL対象外です・・。2nd saleでお待ちしてます！"}<br /><br />
+        ><br />
+           {data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "AL対象外です・・。2nd saleでお待ちしてます！"}<br />
            {data.loading ? 'Loading Sale Status...'
             : !data.mintable ? 'セールは開始前か一時休止中です。'
               : data.presale ? '1st sale(AL only) 実施中!'
