@@ -39,18 +39,21 @@ export const fetchData = () => {
 
       const presale = await store
         .getState()
-        .blockchain.smartContract.methods.presale()
+        .blockchain.smartContract.methods.onlyAllowlisted()
         .call()
 
-      const mintable = await store
+      const paused = await store
         .getState()
-        .blockchain.smartContract.methods.mintable()
+        .blockchain.smartContract.methods.paused()
         .call()
 
-      const publicSaleWithoutProof = await store
-        .getState()
-        .blockchain.smartContract.methods.publicSaleWithoutProof()
-        .call()
+      const mintable = !paused
+
+      // const publicSaleWithoutProof = await store
+      //   .getState()
+      //   .blockchain.smartContract.methods.publicSaleWithoutProof()
+      //   .call()
+      const publicSaleWithoutProof = !presale
 
       dispatch(
         fetchDataSuccess({
