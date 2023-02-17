@@ -27,4 +27,5 @@ export const addressAndAlCountMapPreMint = new Map<string, number>([
   ['0x961d2C942aECE305A9911652E1fb303A1e5D4902', 1],
   ['0x358EACC9676FB56a36F1Da8Ed2D6A0805e565a3a', 1],
   ['0xdEdE0e4Fda3DE6Ba791eDa156CF2fd900E4936f9', 1],
+  ['0x92d5dD9B549E6D2ac6443946DF3b14d9E860f4fc', 1],
 ])
