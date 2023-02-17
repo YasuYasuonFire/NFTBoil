@@ -35,9 +35,9 @@ export const handler: Handler = async (event, context) => {
     rootHashPreMint
   )
 
-  if (!verifyPreMint) {
-    hexProofPreMint = []
-  }
+  // if (!verifyPreMint) {
+  //   hexProofPreMint = []
+  // }
 
   // get publicMint MerkleProof
   let alCountPublicMint = addressAndAlCountLowerPublicMint.get(addressLower)
