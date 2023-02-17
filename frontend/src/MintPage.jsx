@@ -339,12 +339,14 @@ const Mint = () => {
         <s.TextDescription
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
         ><br />
-           {data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "AL対象外です・・。2nd saleでお待ちしてます！"}<br />
+        {!data.publicSaleWithoutProof ? //2nd,3rdセールではない時だけ、AL対象かどうかを表示
+           data.loading ? 'Loading Your Status...' : alCountPreMint > 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "AL対象外です・・。2nd saleでお待ちしてます！"
+          : "" }<br />
            {data.loading ? 'Loading Sale Status...'
             : !data.mintable ? 'セールは開始前か一時休止中です。'
               : data.presale ? '1st sale(AL only) 実施中!'
-                : !data.publicSaleWithoutProof ? 'PUBLIC SALE 実施中!' //ALなしのPublicセール(2nd, 3rd)
-                  : 'PUBLIC SALE LIVE! (ANYONE)' //ALありのPublicセール（HattenShoでは使わない）
+                : !data.publicSaleWithoutProof ? 'PUBLIC SALE(AL)!' //ALありのPublicセール（HattenShoでは使わない）
+                  : 'PUBLIC SALE 実施中' //ALなしのPublicセール(2nd, 3rd)
           }
         </s.TextDescription>
         <s.SpacerSmall />
