@@ -1,6 +1,6 @@
 {
-  "CONTRACT_ADDRESS": "0x387c0F8d409a4b51A3e7EEd20A8c9EC73D6762B8",
-  "SCAN_LINK": "https://goerli.etherscan.io/address/0x387c0F8d409a4b51A3e7EEd20A8c9EC73D6762B8",
+  "CONTRACT_ADDRESS": "0x3D67ce5C647Ec0677268097ec0d60861118F348c",
+  "SCAN_LINK": "https://goerli.etherscan.io/address/0x3D67ce5C647Ec0677268097ec0d60861118F348c",
   "NETWORK": {
     "NAME": "Ethereum Mainnet",
     "SYMBOL": "ETH",
@@ -14,7 +14,7 @@
   "MAX_SUPPLY": 88,
   "GAS_LIMIT": 200000,
   "MARKETPLACE": "OpenSea",
-  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/hattensho-5",
+  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/hattensho-6",
   "MAX_MINT_AMOUNT_PUBLIC": 87,
   "MAX_PER_WALLET": 300,
   "ALLOWLIST_SALE_INFO": "Date: TBA JST, Price: 0.08ETH",

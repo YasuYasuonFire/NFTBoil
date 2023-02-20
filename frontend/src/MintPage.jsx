@@ -112,9 +112,6 @@ const Mint = () => {
     let totalGasLimit = String(gasLimit * mintAmount)
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`)
     setClaimingNft(true)
-    console.log("mintAmount: ", mintAmount);
-    console.log("alCountPreMint: ", alCountPreMint);
-    console.log("merkleHexProofPreMint", merkleHexProofPreMint)
     if (data.presale) {
       method = blockchain.smartContract.methods.mint(
         mintAmount,
