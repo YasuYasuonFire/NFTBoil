@@ -278,7 +278,7 @@ const Mint = () => {
   }
 
   const BuyButton = () => {
-    if (data.presale && alCountPreMint == 0) {
+    if (data.presale && alCountPreMint == 0) {//1st saleでALなし
       return (
         <s.TextDescription
           style={{
@@ -291,7 +291,7 @@ const Mint = () => {
       )
     }
 
-    if (!data.presale && !data.publicSaleWithoutProof && alCountPublicMint == 0) {
+    if (!data.presale && !data.publicSaleWithoutProof && alCountPublicMint == 0) {//HattenShoでは使用なし
       return (
         <s.TextDescription
           style={{
@@ -304,12 +304,22 @@ const Mint = () => {
       )
     }
 
-    if (!data.mintable) {
+    if (!data.mintable) {//pause: true
       return (
         <StyledButton
           disabled="1"
         >
           <BuyButtonContent>PAUSED</BuyButtonContent>
+        </StyledButton>
+      )
+    }
+
+    if (data.alreadyMinted == 1 && data.presale) {//1stセール中、AL保有者がmint済み
+      return (
+        <StyledButton
+          disabled="1"
+        >
+          <BuyButtonContent>You Already Bought. Thanks!</BuyButtonContent>
         </StyledButton>
       )
     }
