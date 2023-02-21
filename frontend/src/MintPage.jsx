@@ -323,7 +323,7 @@ const Mint = () => {
         </StyledButton>
       )
     }
-
+    console.log(data.alreadyMinted);
     return (
       <StyledButton
         disabled={claimingNft ? 1 : 0}
