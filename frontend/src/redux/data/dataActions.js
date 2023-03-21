@@ -55,13 +55,11 @@ export const fetchData = () => {
       //   .call()
       const publicSaleWithoutProof = !presale
 
-      //AL保有者が1個ミント済みかの判定に使用。
-      const address = await store.getState().blockchain.account
-
-      const alreadyMinted = await store
-        .getState()
-        .blockchain.smartContract.methods.balanceOf(address)
-        .call()
+      //AL保有者が1個ミント済みかの判定に使用。//TODO: accountアドレスがundefined
+      // const alreadyMinted = await store
+      //   .getState()
+      //   .blockchain.smartContract.methods.balanceOf(account)
+      //   .call()
 
       dispatch(
         fetchDataSuccess({
@@ -71,7 +69,6 @@ export const fetchData = () => {
           presale,
           mintable,
           publicSaleWithoutProof,
-          alreadyMinted,
         })
       )
     } catch (err) {

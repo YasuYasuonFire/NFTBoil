@@ -323,7 +323,7 @@ const Mint = () => {
         </StyledButton>
       )
     }
-    console.log(data.alreadyMinted);
+    
     return (
       <StyledButton
         disabled={claimingNft ? 1 : 0}
@@ -464,7 +464,7 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          3/XX(YY), ZZ:00- (Japan time)<br />
+          3/28(Tue), 21:00 (Japan time) <br></br>until 4/6(Thu), 21:00<br />
           Mint Amount: 1
         </s.TextDescription>
         <s.SpacerSmall />
