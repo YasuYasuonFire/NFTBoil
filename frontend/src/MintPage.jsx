@@ -350,7 +350,7 @@ const Mint = () => {
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
         ><br />
         {!data.publicSaleWithoutProof ? //2nd,3rdセールではない時だけ、AL対象かどうかを表示
-           data.loading ? 'Loading Your Status...' : (alCountPreMint > 0 ? (alreadyMinted == 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "1点ミント済みです。ありがとうございます！"): "AL対象外です・・。2nd saleでお待ちしてます！")
+           data.loading ? 'Loading Your Status...' : (alCountPreMint > 0 ? (data.alreadyMinted == 0 ? "AL対象のあなたは " + alCountPreMint + " 点ミントできます" : "1点ミント済みです。ありがとうございます！"): "AL対象外です・・。2nd saleでお待ちしてます！")
           : "" }<br />
            {data.loading ? 'Loading Sale Status...'
             : !data.mintable ? 'セールは開始前か一時休止中です。'
