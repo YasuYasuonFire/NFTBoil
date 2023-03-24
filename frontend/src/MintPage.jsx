@@ -350,6 +350,7 @@ const Mint = () => {
         <s.TextDescription
           style={{ textAlign: 'center', color: 'var(--accent-text)' }}
         ><br />
+        {console.log("alreadyMinted: ", data.alreadyMinted)}
         {!data.publicSaleWithoutProof ? //2nd,3rdセールではない時だけ、AL対象かどうかを表示
            data.loading ? 'Loading Your Status...' :
              (alCountPreMint > 0 ? 

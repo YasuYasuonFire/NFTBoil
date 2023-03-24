@@ -62,7 +62,7 @@ export const fetchData = () => {
         .getState()
         .blockchain.smartContract.methods.balanceOf(account)
         .call()
-      console.log('alreadyMinted: ' + alreadyMinted)
+      console.log('alreadyMinted_dataActions: ' + alreadyMinted)
 
       dispatch(
         fetchDataSuccess({
