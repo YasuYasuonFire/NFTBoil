@@ -56,7 +56,7 @@ export const fetchData = () => {
       const publicSaleWithoutProof = !presale
 
       const account = await store.getState().blockchain.account
-
+      console.log(account)
       //AL保有者が1個ミント済みかの判定に使用。//TODO: accountアドレスがundefined
       const alreadyMinted = await store
         .getState()
