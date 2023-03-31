@@ -469,7 +469,7 @@ const Mint = () => {
             color: 'var(--secondary)',
           }}
         >
-          3/28(Tue), 21:00 (Japan time) <br></br>until 4/6(Thu), 21:00<br />
+          4/6(Thu), 21:00 (Japan time) <br></br>until 4/15(Sat), 21:00<br />
           Mint Amount: 1
         </s.TextDescription>
         <s.SpacerSmall />

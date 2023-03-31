@@ -56,13 +56,12 @@ export const fetchData = () => {
       const publicSaleWithoutProof = !presale
 
       const account = await store.getState().blockchain.account
-      console.log(account)
+
       //AL保有者が1個ミント済みかの判定に使用。
       const alreadyMinted = await store
         .getState()
         .blockchain.smartContract.methods.balanceOf(account)
         .call()
-      console.log('alreadyMinted_dataActions: ' + alreadyMinted)
 
       dispatch(
         fetchDataSuccess({
